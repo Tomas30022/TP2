@@ -16,14 +16,14 @@ class Mascota(db.Model):
     id_tipo_animal = db.Column(db.Integer, db.ForeignKey('tipos_mascota.id'))
     fecha_adopcion = db.Column(db.DateTime, default=datetime.datetime.now())
     fecha_recoleccion = db.Column(db.DateTime, default=datetime.datetime.now())
-    hambre = db.Column(db.Integer, nullable=False)
-    desperdicios = db.Column(db.Integer, nullable=False)
-    felicidad = db.Column(db.Integer, nullable=False)
+    hambre = db.Column(db.Integer, nullable=False, default=100)
+    desperdicios = db.Column(db.Integer, nullable=False, default=0)
+    felicidad = db.Column(db.Integer, nullable=False, default=70)
 
 class TipoMascota(db.Model):
     __tablename__ = 'tipos_mascota'
     id = db.Column(db.Integer, primary_key=True)
     animal = db.Column(db.String(100), nullable=False)
     tamaño_estomago = db.Column(db.Integer, nullable=False)
-    frecuencia_desperdicios = db.Column(db.Interger, nullable=False)
-    necesidad_atencion = db.Column(db.Interget, nullable=False)
+    frecuencia_desperdicios = db.Column(db.Integer, nullable=False)
+    necesidad_atencion = db.Column(db.Integer, nullable=False)
