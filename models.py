@@ -8,6 +8,7 @@ class Dueño(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=True, nullable=False)
     dinero = db.Column(db.Integer, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.datetime.now())
 
 class Mascota(db.Model):
     __tablename__ = 'mascotas'
