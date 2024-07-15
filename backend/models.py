@@ -15,6 +15,7 @@ class Mascota(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_dueño = db.Column(db.Integer, db.ForeignKey('dueños.id'))
     id_tipo_animal = db.Column(db.Integer, db.ForeignKey('tipos_mascota.id'))
+    nombre = db.Column(db.String(100), unique=True, nullable=False)
     fecha_adopcion = db.Column(db.DateTime, default=datetime.datetime.now())
     fecha_recoleccion = db.Column(db.DateTime, default=datetime.datetime.now())
     hambre = db.Column(db.Integer, nullable=False, default=100)

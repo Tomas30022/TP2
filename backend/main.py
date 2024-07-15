@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from backend.models import db, Dueño, Mascota, TipoMascota
+from models import db, Dueño, Mascota, TipoMascota
 
 app = Flask(__name__)
 port = 5000
@@ -25,7 +25,7 @@ def get_authors():
         return jsonify({'dueños': dueños_data})
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
+        return jsonify({'message': 'No hay ningun perfil disponible'}), 500
     
 @app.route('/dueños', methods=['POST'])
 def add_dueño():
@@ -34,7 +34,7 @@ def add_dueño():
         nombre = data.get('nombre')
         dinero = data.get('dinero')
         fecha_creacion = data.get('fecha_creacion')
-        if not nombre or not dinero or not fecha_creacion:
+        if not nombre or not dinero:
             return jsonify({'message': 'Bad request, no se encontro el nombre o la cantidad de dinero'}), 400
         nuevo_dueño = Dueño(nombre=nombre, dinero=dinero, fecha_creacion=fecha_creacion)
         db.session.add(nuevo_dueño)
@@ -57,6 +57,23 @@ def data(id_jugador):
         return jsonify(dueño_data)
     except:
         return jsonify({"ERROR": "ID DEL DUEÑO NO ENCONTRADO"}), 204
+    
+@app.route('/dueños', methods=['POST'])
+def add_mascota():
+    try:
+        data = request.json
+        nombre = data.get('nombre')
+        dinero = data.get('dinero')
+        fecha_creacion = data.get('fecha_creacion')
+        if not nombre or not dinero:
+            return jsonify({'message': 'Bad request, no se encontro el nombre o la cantidad de dinero'}), 400
+        nuevo_dueño = Dueño(nombre=nombre, dinero=dinero, fecha_creacion=fecha_creacion)
+        db.session.add(nuevo_dueño)
+        db.session.commit()
+        return jsonify({'dueño': {'id': nuevo_dueño.id, 'nombre': nuevo_dueño.nombre, 'dinero': nuevo_dueño.dinero, 'fecha_creacion': nuevo_dueño.fecha_creacion}}), 201
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Error al crear el perfil'}), 500
 
 if __name__ == '__main__':
     print('Starting server...')
