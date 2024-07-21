@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 from models import db, Dueño, Mascota, TipoMascota
 
 app = Flask(__name__)
+CORS(app)
 port = 5000
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:postgres@localhost:5432/tp2_granjeros'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
@@ -22,7 +25,7 @@ def get_authors():
                 'dinero': dueño.dinero
             }
             dueños_data.append(dueño_data)
-        return jsonify({'dueños': dueños_data})
+        return jsonify(dueños_data)
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'No hay ningun perfil disponible'}), 500
