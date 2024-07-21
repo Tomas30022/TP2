@@ -61,6 +61,27 @@ def data(id_jugador):
     except:
         return jsonify({"ERROR": "ID DEL DUEÑO NO ENCONTRADO"}), 204
     
+@app.route("/dueños/<id_jugador>/mascotas", methods=['GET'])
+def data_mascotas(id_jugador):
+    try:
+        mascotas = Mascota.query.where(Mascota.id_dueño == id_jugador).all()
+
+        mascotas_data = []
+        for mascota in mascotas:
+            mascota_data = {
+                'id': mascota.id,
+                'id_tipo_animal': mascota.id_tipo_animal,
+                'nombre': mascota.nombre,
+                'fecha_adopcion': mascota.fecha_adopcion,
+                'hambre': mascota.hambre,
+                'desperdicios': mascota.desperdicios,
+                'felicidad': mascota.felicidad
+            }
+            mascotas_data.append(mascota_data)
+        return jsonify(mascotas_data)
+    except:
+        return jsonify({"mensaje": "No hay mascotas."})
+    
 @app.route('/dueños', methods=['POST'])
 def add_mascota():
     try:
