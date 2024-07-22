@@ -13,9 +13,7 @@
     <header>
         <h1>Bienvenidos a Crossing Animal</h1>
         <nav>
-            <button type="button">Inicio</button> 
-            <button type="button">Ingresar</button> 
-            <button type="button">Crear Dueño</button> 
+            <button type="button" onclick="location.href = './inicio.html'">Inicio</button> 
         </nav>
     </header>
 
@@ -25,7 +23,7 @@
         <div class="container-xl">
             <h2>¿Que es Crossing Animal?</h2>
             <p>
-                Crossing Animal es una aplicacion web donde podes crear un perfil, adoptar mascotas y cuidarlas, para crear un perfil simplemente presione "Crear Dueño" en la barra de navegacion, para ingresar con un perfil existente presione "Ingresar".
+                Crossing Animal es una aplicacion web donde podes crear un perfil, adoptar mascotas y cuidarlas, para crear un perfil simplemente presione "Crear Dueño" en la barra de navegacion, para ingresar con un perfil existente presione el nombre del perfil al que se desea ingresar.
             </p>
         </div>
 
@@ -65,15 +63,16 @@
             console.log(content.length);
             console.log(content);
             for (let index = 0; index < content.length; index++) {
+                console.log(content[index].id)
                 const row = document.createElement("tr")
                 const item = document.createElement("td");
                 item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].nombre);
-                item.innerText = content[index].nombre;
+                item.innerHTML = `<a href="dueños/?id=${content[index].id}" target="_blank">${content[index].nombre}</a>`;
                 const item2 = document.createElement("td");
                 item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
-                console.log(content[index].nombre);
-                item2.innerText = content[index].nombre;
+                console.log(content[index].dinero);
+                item2.innerText = content[index].dinero;
                 container.append(row)
                 row.append(item);
                 row.append(item2);
