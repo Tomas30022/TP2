@@ -1,5 +1,6 @@
 import datetime
 from flask import Flask, request, jsonify
+from flask import render_template
 from flask_cors import CORS
 
 from models import db, Dueño, Mascota, TipoMascota
@@ -15,7 +16,7 @@ def hello_world():
     return 'Buenas buenas'
 
 @app.route('/dueños', methods=['GET'])
-def get_authors():
+def get_dueños():
     try:
         dueños = Dueño.query.all()
         dueños_data = []
@@ -31,13 +32,11 @@ def get_authors():
         print('Error', error)
         return jsonify({'message': 'No hay ningun perfil disponible'}), 500
     
-@app.route('/dueños', methods=['POST'])
-def add_dueño():
+@app.route('/dueños/<nombre>', methods=['POST'])
+def add_dueño(nombre):
     try:
-        data = request.json
-        nombre = data.get('nombre')
-        dinero = data.get('dinero')
-        fecha_creacion = data.get('fecha_creacion')
+        dinero = 100
+        fecha_creacion = datetime.datetime.now()
         if not nombre or not dinero:
             return jsonify({'message': 'Bad request, no se encontro el nombre o la cantidad de dinero'}), 400
         nuevo_dueño = Dueño(nombre=nombre, dinero=dinero, fecha_creacion=fecha_creacion)
@@ -99,6 +98,54 @@ def agregar_mascota(id_jugador, id_tipo_mascota, nombre):
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Error al crear la mascota'}), 500
+    
+@app.route("/dueños/mascotas/<id_mascota>", methods=['GET'])
+def recibir_mascota(id_mascota):
+    try:
+        mascotas = db.session.query(Mascota, TipoMascota, Dueño                                    
+        ).filter(Mascota.id_tipo_animal == TipoMascota.id
+        ).filter(Mascota.id == id_mascota).filter(Mascota.id_dueño == Dueño.id).all()
+        print(mascotas)
+        mascotas_data = []
+        for (mascota, tipo_animal, dueño) in mascotas:
+            mascota_data = {
+                'id': mascota.id,
+                'tipo_animal': tipo_animal.animal,
+                'tamaño_estomago': tipo_animal.tamaño_estomago,
+                'frecuencia_desperdicios': tipo_animal.frecuencia_desperdicios,
+                'necesidad_atencion': tipo_animal.necesidad_atencion,
+                'dueño_id': dueño.id,
+                'dinero': dueño.dinero,
+                'nombre': mascota.nombre,
+                'fecha_adopcion': mascota.fecha_adopcion,
+                'hambre': mascota.hambre,
+                'desperdicios': mascota.desperdicios,
+                'felicidad': mascota.felicidad
+            }
+            mascotas_data.append(mascota_data)
+        return jsonify(mascotas_data)
+    except:
+        return jsonify({"ERROR": "ID DE LA MASCOTA NO ENCONTRADO"}), 204
+    
+@app.route("/alimentar/<id_mascota>", methods=["POST"])
+def alimentar_mascota(id_mascota):
+    try:
+        mascota = Mascota.query.get(id_mascota)
+        dueño = Dueño.query.get(mascota.id_dueño)
+        tipo_mascota = TipoMascota.query.get(mascota.id_tipo_animal)
+
+        dueño.dinero -= 10
+        mascota.hambre += tipo_mascota.tamaño_estomago/10
+
+        db.session.add(mascota)
+        db.session.add(dueño)
+        db.session.commit()
+
+        return jsonify({'nuevo_dinero': dueño.dinero, 'nueva_hambre': mascota.hambre}), 201
+    except Exception as error:
+        print(error)
+        return jsonify({"ERROR": "ID DE LA MASCOTA NO ENCONTRADO"}), 500
+
 
 if __name__ == '__main__':
     print('Starting server...')
