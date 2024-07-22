@@ -27,6 +27,16 @@
             </p>
         </div>
 
+        <div class="page-content">
+            <div class="container-xl">
+                <form method="post">
+                    <label for="name">Insertar un nombre</label>
+                    <input name="name" id="name" value="">
+                    <button type="button" onclick='crear_jugador(document.getElementById("name").value)'>Crear nuevo jugador</button>  
+                </form>
+            </div>
+        </div>
+
         <div class="container-xl">
             <h2>Lista de jugadores</h2>
             <div class="table-list">
@@ -68,7 +78,7 @@
                 const item = document.createElement("td");
                 item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].nombre);
-                item.innerHTML = `<a href="dueños/?id=${content[index].id}" target="_blank">${content[index].nombre}</a>`;
+                item.innerHTML = `<a href="dueños/?id=${content[index].id}" target="">${content[index].nombre}</a>`;
                 const item2 = document.createElement("td");
                 item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].dinero);
@@ -77,6 +87,19 @@
                 row.append(item);
                 row.append(item2);
             }
+        }
+
+        function parse_creacion(content) {
+            console.log(content);
+        }
+
+        function crear_jugador(nombre) {
+            console.log(nombre);
+
+            fetch("http://localhost:5000/dueños/"+nombre, {method: "POST"})
+            .then(response_received)
+            .then(parse_creacion)
+            .catch(request_error)
         }
 
         function request_error(error) {
