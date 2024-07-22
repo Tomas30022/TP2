@@ -6,24 +6,24 @@
     <link rel="stylesheet" href="./estilos.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossing Animal</title>
+    <title>PAW</title>
 </head>
 
 <body data-bs-theme="dark">
     <header>
-        <h1>Bienvenidos a Crossing Animal</h1>
+        <h1>Bienvenidos a PAW</h1>
         <nav>
-            <button type="button" onclick="location.href = './inicio.html'">Inicio</button> 
+            <button type="button" class="hub-button" onclick="location.href = './inicio.html'">Inicio</button> 
         </nav>
     </header>
 
     <div class="page-content" id="content">
         <div class="container-lg">
         </div>
-        <div class="container-xl">
-            <h2>¿Que es Crossing Animal?</h2>
+        <div class="container-xl" id="h2-container">
+            <h2>¿Que es PAW?</h2>
             <p>
-                Crossing Animal es una aplicacion web donde podes crear un perfil, adoptar mascotas y cuidarlas, para crear un perfil simplemente presione "Crear Dueño" en la barra de navegacion, para ingresar con un perfil existente presione el nombre del perfil al que se desea ingresar.
+                PAW es una aplicacion web donde podes crear un perfil, adoptar mascotas y cuidarlas, para crear un perfil simplemente presione debajo en "Crear nuevo jugador" luego de haber ingresado un nombre, para ingresar con un perfil existente presione el nombre del perfil al que se desea ingresar.
             </p>
         </div>
 
@@ -40,7 +40,7 @@
         <div class="container-xl">
             <h2>Lista de jugadores</h2>
             <div class="table-list">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="table">
                     <tbody id="dueños">
                         <tr>
                             <th>
@@ -91,6 +91,21 @@
 
         function parse_creacion(content) {
             console.log(content);
+
+            const container = document.getElementById("dueños");
+
+            const row = document.createElement("tr")
+            const item = document.createElement("td");
+            item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
+            console.log(content.dueño.nombre);
+            item.innerHTML = `<a href="dueños/?id=${content.dueño.id}" target="">${content.dueño.nombre}</a>`;
+            const item2 = document.createElement("td");
+            item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
+            console.log(content.dueño.dinero);
+            item2.innerText = content.dueño.dinero;
+            container.append(row)
+            row.append(item);
+            row.append(item2);
         }
 
         function crear_jugador(nombre) {
