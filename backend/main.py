@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -64,13 +65,15 @@ def data(id_jugador):
 @app.route("/dueños/<id_jugador>/mascotas", methods=['GET'])
 def data_mascotas(id_jugador):
     try:
-        mascotas = Mascota.query.where(Mascota.id_dueño == id_jugador).all()
+        mascotas = db.session.query(Mascota, TipoMascota                                    
+        ).filter(Mascota.id_tipo_animal == TipoMascota.id
+        ).filter(Mascota.id_dueño == id_jugador).all()
 
         mascotas_data = []
-        for mascota in mascotas:
+        for (mascota, tipo_animal) in mascotas:
             mascota_data = {
                 'id': mascota.id,
-                'id_tipo_animal': mascota.id_tipo_animal,
+                'tipo_animal': tipo_animal.animal,
                 'nombre': mascota.nombre,
                 'fecha_adopcion': mascota.fecha_adopcion,
                 'hambre': mascota.hambre,
@@ -82,22 +85,20 @@ def data_mascotas(id_jugador):
     except:
         return jsonify({"mensaje": "No hay mascotas."})
     
-@app.route('/dueños', methods=['POST'])
-def add_mascota():
+@app.route('/dueños/<id_jugador>/nueva_mascota/<id_tipo_mascota>/<nombre>', methods=['POST'])
+def agregar_mascota(id_jugador, id_tipo_mascota, nombre):
     try:
-        data = request.json
-        nombre = data.get('nombre')
-        dinero = data.get('dinero')
-        fecha_creacion = data.get('fecha_creacion')
-        if not nombre or not dinero:
-            return jsonify({'message': 'Bad request, no se encontro el nombre o la cantidad de dinero'}), 400
-        nuevo_dueño = Dueño(nombre=nombre, dinero=dinero, fecha_creacion=fecha_creacion)
-        db.session.add(nuevo_dueño)
+        fecha_adopcion = datetime.datetime.now()
+
+        if not nombre:
+            return jsonify({'message': 'Bad request, no se encontro el nombre'}), 400
+        nueva_mascota = Mascota(id_dueño=id_jugador, id_tipo_animal=id_tipo_mascota, nombre=nombre, fecha_adopcion=fecha_adopcion)
+        db.session.add(nueva_mascota)
         db.session.commit()
-        return jsonify({'dueño': {'id': nuevo_dueño.id, 'nombre': nuevo_dueño.nombre, 'dinero': nuevo_dueño.dinero, 'fecha_creacion': nuevo_dueño.fecha_creacion}}), 201
+        return jsonify({'dueño': {'id': nueva_mascota.id}}), 201
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Error al crear el perfil'}), 500
+        return jsonify({'message': 'Error al crear la mascota'}), 500
 
 if __name__ == '__main__':
     print('Starting server...')
