@@ -93,7 +93,7 @@ def agregar_mascota(id_jugador, id_tipo_mascota, nombre):
         nueva_mascota = Mascota(id_dueño=id_jugador, id_tipo_animal=id_tipo_mascota, nombre=nombre, fecha_adopcion=fecha_adopcion)
         db.session.add(nueva_mascota)
         db.session.commit()
-        return jsonify({'dueño': {'id': nueva_mascota.id}}), 201
+        return jsonify({'mascota': {'id': nueva_mascota.id, 'nombre': nueva_mascota.nombre, 'id_dueño': nueva_mascota.id_dueño}}), 201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Error al crear la mascota'}), 500
