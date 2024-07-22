@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="../estilos.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossing Animal</title>
+    <title>PAW</title>
 </head>
 
 <body data-bs-theme="dark">
     <header>
-        <h1>Crossing Animal</h1>
+        <h1>PAW</h1>
         <nav>
-            <button type="button" onclick="location.href = '../inicio.html'">Inicio</button>  
+            <button type="button" class="hub-button" onclick="location.href = '../inicio.html'">Inicio</button>  
         </nav>
     </header>
 
@@ -29,8 +29,32 @@
             <div class="container-xl">
                 <form method="post">
                     <label for="name">Que nombre queres darle al perro?</label>
-                    <input name="name" id="name" value="Nombre">
-                    <button type="button" onclick='adoptar_mascota(1, document.getElementById("name").value)'>Adoptar Perro</button>  
+                    <input name="name" id="perro" value="">
+                    <button type="button" onclick='adoptar_mascota(1, document.getElementById("perro").value)'>Adoptar Perro</button>  
+                </form>
+
+                <form method="post">
+                    <label for="name">Que nombre queres darle al gato?</label>
+                    <input name="name" id="gato" value="">
+                    <button type="button" onclick='adoptar_mascota(2, document.getElementById("gato").value)'>Adoptar Gato</button>  
+                </form>
+
+                <form method="post">
+                    <label for="name">Que nombre queres darle al loro?</label>
+                    <input name="name" id="loro" value="">
+                    <button type="button" onclick='adoptar_mascota(3, document.getElementById("loro").value)'>Adoptar Loro</button>  
+                </form>
+
+                <form method="post">
+                    <label for="name">Que nombre queres darle al conejo?</label>
+                    <input name="name" id="conejo" value="">
+                    <button type="button" onclick='adoptar_mascota(4, document.getElementById("conejo").value)'>Adoptar Conejo</button>  
+                </form>
+
+                <form method="post">
+                    <label for="name">Que nombre queres darle a la tortuga?</label>
+                    <input name="name" id="tortuga" value="">
+                    <button type="button" onclick='adoptar_mascota(5, document.getElementById("tortuga").value)'>Adoptar Tortuga</button>  
                 </form>
             </div>
         </div>
@@ -124,6 +148,8 @@
 
         function parse_adopcion(content) {
             console.log(content);
+
+            window.location.replace(`../dueños/?id=${content.mascota.id_dueño}`);
         }
 
         function request_error(error) {

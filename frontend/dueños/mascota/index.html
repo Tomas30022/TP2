@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="../../estilos.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossing Animal</title>
+    <title>PAW</title>
 </head>
 
 <body data-bs-theme="dark">
     <header>
-        <h1>Crossing Animal</h1>
+        <h1>PAW</h1>
         <nav>
-            <button type="button" onclick="location.href = '../../inicio.html'">Inicio</button>  
+            <button type="button" class="hub-button" onclick="location.href = '../../inicio.html'">Inicio</button>  
         </nav>
     </header>
 
@@ -34,41 +34,10 @@
             </div>
 
             <div class="container-xl" id="stats">
-                <button class="stat-button" onclick="alimentar()" id="hambre">Alimentar</button>
-                <button class="stat-button" onclick="limpiar()" id="desperdicios">Limpiar</button>
-                <button class="stat-button" onclick="jugar()" id="felicidad">Jugar</button>
-                <button class="stat-button-warning" onclick="liberar()" id="felicidad">Liberar</button>
-            </div>
-        </div>
-
-        <div class="container-xl">
-            <h2>Lista de mascotas</h2>
-            <div class="table-list">
-                <table class="table table-bordered">
-                    <tbody id="mascotas">
-                        <tr>
-                            <th>
-                                Nombre
-                            </th>
-                            <th>
-                                Tipo Mascota
-                            </th>
-                            <th>
-                                Fecha Adopcion
-                            </th>
-                            <th>
-                                Hambre
-                            </th>
-                            <th>
-                                Desperdicios
-                            </th>
-                            <th>
-                                Felicidad
-                            </th>
-                        </tr>
-                        
-                    </tbody>
-                </table>
+                <button class="action-button" onclick="alimentar()" id="hambre">Alimentar</button>
+                <button class="action-button" onclick="limpiar()" id="desperdicios">Limpiar</button>
+                <button class="action-button" onclick="jugar()" id="felicidad">Jugar</button>
+                <button class="action-button-warning" onclick="liberar()" id="felicidad">Liberar</button>
             </div>
         </div>
 
