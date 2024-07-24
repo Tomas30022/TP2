@@ -113,29 +113,36 @@
                 console.log(content[index].id)
                 const row = document.createElement("tr")
                 const item = document.createElement("td");
-                item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
+                item.setAttribute("Class", `col-6 col-md-4 col-lg-3 col-xl-2 ${content[index].id}`);
+                item.setAttribute("Id", `name-td${content[index].id}`);
                 console.log(content[index].nombre);
-                item.innerHTML = `<a href="mascota/?id=${content[index].id}" target="">${content[index].nombre}</a>`;
+                item.innerHTML = `<a href="mascota/?id=${content[index].id}" target="">${content[index].nombre}</a><button type="button" class="${content[index].id}" id="edit-button" onclick='cambiar_nombre(${content[index].id})'><img src="../images/lapiz.png" alt="Editar"></button>`;
+                
                 const item2 = document.createElement("td");
                 item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].tipo_animal);
                 item2.innerText = content[index].tipo_animal;
+                
                 const item3 = document.createElement("td");
                 item3.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].fecha_adopcion);
                 item3.innerText = content[index].fecha_adopcion;
+                
                 const item4 = document.createElement("td");
                 item4.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].hambre);
                 item4.innerText = content[index].hambre;
+                
                 const item5 = document.createElement("td");
                 item5.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].desperdicios);
                 item5.innerText = content[index].desperdicios;
+                
                 const item6 = document.createElement("td");
                 item6.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
                 console.log(content[index].felicidad);
                 item6.innerText = content[index].felicidad;
+
                 container.append(row)
                 row.append(item);
                 row.append(item2);
@@ -152,6 +159,13 @@
             window.location.replace(`../dueños/?id=${content.mascota.id_dueño}`);
         }
 
+        function parse_nuevo_nombre(content) {
+            console.log(content);
+
+            const item = document.getElementById("name-td"+content.id)
+            item.innerHTML = `<a href="mascota/?id=${content.id}" target="">${content.nuevo_nombre}</a><button type="button" class="${content.id}" id="edit-button" onclick='cambiar_nombre(${content.id})'><img src="../images/lapiz.png" alt="Editar"></button>`;
+        }
+
         function request_error(error) {
             console.log("ERROR")
             console.log(error);
@@ -166,6 +180,20 @@
             .then(response_received)
             .then(parse_adopcion)
             .catch(request_error)
+        }
+
+        function cambiar_nombre(mascota_id) {
+            const item = document.getElementById("name-td"+mascota_id);
+            item.innerHTML = `<input type="text" class="new-name" id="new-name${mascota_id}"><button type="button" id="save-button" onclick='guardar_nombre(${mascota_id}, document.getElementById("new-name${mascota_id}").value)'>Guardar</button>`;
+            console.log(document.getElementById("new-name"+mascota_id).value)
+        }
+
+        function guardar_nombre(mascota_id ,nuevo_nombre) {
+            
+            fetch("http://localhost:5000/mascotas/cambiar_nombre/"+mascota_id+"/"+nuevo_nombre, {method: "POST"})
+                .then(response_received)
+                .then(parse_nuevo_nombre)
+                .catch(request_error)
         }
 
         let parametros = window.location.search;

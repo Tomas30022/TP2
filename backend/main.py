@@ -238,6 +238,22 @@ def liberar_mascota(id_mascota):
         print(error)
         return jsonify({"ERROR": "ID DE LA MASCOTA NO ENCONTRADO"}), 500
 
+@app.route("/mascotas/cambiar_nombre/<id_mascota>/<nuevo_nombre>", methods=["POST"])
+def renombrar_mascota(id_mascota, nuevo_nombre):
+    try:
+        mascota = Mascota.query.get(id_mascota)
+
+        mascota.nombre = nuevo_nombre
+            
+
+        db.session.add(mascota)
+        db.session.commit()
+
+        return jsonify({'id': mascota.id, 'nuevo_nombre': mascota.nombre}), 201
+    except Exception as error:
+        print(error)
+        return jsonify({"ERROR": "ID DE LA MASCOTA NO ENCONTRADO"}), 500
+
 
 if __name__ == '__main__':
     print('Starting server...')
