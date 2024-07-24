@@ -105,6 +105,16 @@ input {
     justify-self: center;
 }
 
+img {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10px;
+    visibility: visible;
+    transform: scaleX(-1);
+}
+
 .stat-button {
     width: 23%;
     margin: auto;
@@ -158,6 +168,40 @@ input {
 
 #h2-container {
     padding: 1em 1em;
+}
+
+#edit-button {
+    align-self: normal;
+    width: 10%;
+    height: 10%;
+    margin: 0;
+    padding: 0%;
+    padding-bottom: 0px;
+    visibility:hidden;
+    float: none;
+}
+
+.new-name {
+    width: 57%;
+    margin: auto;
+}
+
+#save-button {
+    border-radius: 0;
+    border: 1px;
+    border-style: solid;
+    border-color: rgb(136, 136, 136);
+    background-color: rgb(44, 48, 53);
+    color: white;
+    width: 35%;
+    height: 10%;
+    margin: auto;
+    margin-top: 4px;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 300;
+    align-self: center;
+    float: right;
 }
 
 .table-list {
