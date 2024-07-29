@@ -156,12 +156,20 @@
         function parse_adopcion(content) {
             console.log(content);
 
-            window.location.replace(`../dueños/?id=${content.mascota.id_dueño}`);
+            if (content.mascota.alerta == false) {
+                window.location.replace(`../dueños/?id=${content.mascota.id_dueño}`);
+            } else if (content.mascota.alerta == true) {
+                alert(content.message)
+                console.warn(content.message)
+            }
         }
 
         function parse_nuevo_nombre(content) {
             console.log(content);
-
+            if (content.alerta == true) {
+                alert(content.message)
+                console.warn(content.message)
+            }
             const item = document.getElementById("name-td"+content.id)
             item.innerHTML = `<a href="mascota/?id=${content.id}" target="">${content.nuevo_nombre}</a><button type="button" class="${content.id}" id="edit-button" onclick='cambiar_nombre(${content.id})'><img src="../images/lapiz.png" alt="Editar"></button>`;
         }

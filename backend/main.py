@@ -31,17 +31,19 @@ def get_dueños():
         print('Error', error)
         return jsonify({'message': 'No hay ningun perfil disponible'}), 500
     
-@app.route('/dueños/<nombre>', methods=['POST'])
-def add_dueño(nombre):
+@app.route('/dueños/<nombre_nuevo>', methods=['POST'])
+def add_dueño(nombre_nuevo):
     try:
         dinero = 100
         fecha_creacion = datetime.datetime.now()
-        if not nombre or not dinero:
+        if not nombre_nuevo or not dinero:
             return jsonify({'message': 'Bad request, no se encontro el nombre o la cantidad de dinero'}), 400
-        nuevo_dueño = Dueño(nombre=nombre, dinero=dinero, fecha_creacion=fecha_creacion)
+        if Dueño.query.filter_by(nombre=nombre_nuevo).first():
+            return jsonify({'message': 'El nombre elegido ya existe, intente con otro.', 'dueño': {'alerta': True}}), 201
+        nuevo_dueño = Dueño(nombre=nombre_nuevo, dinero=dinero, fecha_creacion=fecha_creacion)
         db.session.add(nuevo_dueño)
         db.session.commit()
-        return jsonify({'dueño': {'id': nuevo_dueño.id, 'nombre': nuevo_dueño.nombre, 'dinero': nuevo_dueño.dinero, 'fecha_creacion': nuevo_dueño.fecha_creacion}}), 201
+        return jsonify({'dueño': {'alerta': False, 'id': nuevo_dueño.id, 'nombre': nuevo_dueño.nombre, 'dinero': nuevo_dueño.dinero, 'fecha_creacion': nuevo_dueño.fecha_creacion}}), 201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Error al crear el perfil'}), 500
@@ -83,17 +85,19 @@ def data_mascotas(id_jugador):
     except:
         return jsonify({"mensaje": "No hay mascotas."})
     
-@app.route('/dueños/<id_jugador>/nueva_mascota/<id_tipo_mascota>/<nombre>', methods=['POST'])
-def agregar_mascota(id_jugador, id_tipo_mascota, nombre):
+@app.route('/dueños/<id_jugador>/nueva_mascota/<id_tipo_mascota>/<nombre_nuevo>', methods=['POST'])
+def agregar_mascota(id_jugador, id_tipo_mascota, nombre_nuevo):
     try:
         fecha_adopcion = datetime.datetime.now()
 
-        if not nombre:
+        if not nombre_nuevo:
             return jsonify({'message': 'Bad request, no se encontro el nombre'}), 400
-        nueva_mascota = Mascota(id_dueño=id_jugador, id_tipo_animal=id_tipo_mascota, nombre=nombre, fecha_adopcion=fecha_adopcion)
+        if Mascota.query.filter_by(nombre=nombre_nuevo).first():
+            return jsonify({'message': 'El nombre elegido ya existe, intente con otro.', 'mascota': {'alerta': True}}), 201
+        nueva_mascota = Mascota(id_dueño=id_jugador, id_tipo_animal=id_tipo_mascota, nombre=nombre_nuevo, fecha_adopcion=fecha_adopcion)
         db.session.add(nueva_mascota)
         db.session.commit()
-        return jsonify({'mascota': {'id': nueva_mascota.id, 'nombre': nueva_mascota.nombre, 'id_dueño': nueva_mascota.id_dueño}}), 201
+        return jsonify({'mascota': {'alerta': False, 'id': nueva_mascota.id, 'nombre': nueva_mascota.nombre, 'id_dueño': nueva_mascota.id_dueño}}), 201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Error al crear la mascota'}), 500
@@ -243,13 +247,16 @@ def renombrar_mascota(id_mascota, nuevo_nombre):
     try:
         mascota = Mascota.query.get(id_mascota)
 
+        if Mascota.query.filter_by(nombre=nuevo_nombre).first():
+            return jsonify({'message': 'El nombre elegido ya existe, intente con otro.', 'alerta': True, 'id': mascota.id, 'nuevo_nombre': mascota.nombre}), 201
+
         mascota.nombre = nuevo_nombre
             
 
         db.session.add(mascota)
         db.session.commit()
 
-        return jsonify({'id': mascota.id, 'nuevo_nombre': mascota.nombre}), 201
+        return jsonify({'alerta': False, 'id': mascota.id, 'nuevo_nombre': mascota.nombre}), 201
     except Exception as error:
         print(error)
         return jsonify({"ERROR": "ID DE LA MASCOTA NO ENCONTRADO"}), 500

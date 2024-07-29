@@ -92,20 +92,25 @@
         function parse_creacion(content) {
             console.log(content);
 
-            const container = document.getElementById("dueños");
+            if (content.dueño.alerta == false) {
+                const container = document.getElementById("dueños");
 
-            const row = document.createElement("tr")
-            const item = document.createElement("td");
-            item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
-            console.log(content.dueño.nombre);
-            item.innerHTML = `<a href="dueños/?id=${content.dueño.id}" target="">${content.dueño.nombre}</a>`;
-            const item2 = document.createElement("td");
-            item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
-            console.log(content.dueño.dinero);
-            item2.innerText = content.dueño.dinero;
-            container.append(row)
-            row.append(item);
-            row.append(item2);
+                const row = document.createElement("tr")
+                const item = document.createElement("td");
+                item.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
+                console.log(content.dueño.nombre);
+                item.innerHTML = `<a href="dueños/?id=${content.dueño.id}" target="">${content.dueño.nombre}</a>`;
+                const item2 = document.createElement("td");
+                item2.setAttribute("Class", "col-6 col-md-4 col-lg-3 col-xl-2");
+                console.log(content.dueño.dinero);
+                item2.innerText = content.dueño.dinero;
+                container.append(row)
+                row.append(item);
+                row.append(item2);
+            } else if (content.dueño.alerta == true) {
+                alert(content.message)
+                console.warn(content.message)
+            }
         }
 
         function crear_jugador(nombre) {
