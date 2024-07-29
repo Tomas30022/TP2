@@ -62,6 +62,10 @@ button {
     float: right;
 }
 
+button:active {
+    background-color: #8a7a5f;
+}
+
 .hub-button {
     width: 31%;
     height: 100%;
@@ -76,6 +80,10 @@ button {
     font-size: 2em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: black;
+}
+
+.hub-button:active {
+    background-color: #8a7a5f;
 }
 
 form {
@@ -125,6 +133,10 @@ img {
     border-color: #332e25;
 }
 
+.stat-button:active {
+    background-color: #504734
+}
+
 .action-button {
     width: 23%;
     margin: auto;
@@ -139,6 +151,10 @@ img {
     border-color: rgb(173, 20, 20);
     height: 5em;
     font-size: 1.2em;
+}
+
+.action-button-warning:active {
+    background-color: rgb(173, 20, 20);
 }
 
 .input-button {
@@ -202,6 +218,10 @@ img {
     font-weight: 300;
     align-self: center;
     float: right;
+}
+
+#save-button:active {
+    background-color: rgb(117, 122, 129);
 }
 
 .table-list {
